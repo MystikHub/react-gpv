@@ -36,19 +36,19 @@ class App extends React.Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-          <header className="App-header" style={{paddingTop: "3rem", paddingBottom: "3rem"}}>
-            <Container maxWidth="sm">
-              <Typography variant="h3">GitHub Profile Viewer</Typography>
+          <header className="App-header">
+            <Container maxWidth="sm" style={{paddingTop: "3rem", paddingBottom: "3rem"}}>
+              <Typography variant="h3" style={{textAlign: "center"}}>GitHub Profile Viewer</Typography>
               <br /><br />
               <form className={useStyles.root} noValidate autoComplete="off">
-                <Grid container spacing={3}>
+                <Grid container spacing={3} alignItems="center">
                   <Grid item xs>
                     <TextField value={this.state.githubUsername} label="GitHub username" variant="outlined"
-                      style={{minWidth: '12rem', textAlign: 'left'}} onChange={event => this.setState({githubUsername: event.target.value})}/>
+                      fullWidth onChange={event => this.setState({githubUsername: event.target.value})}/>
                   </Grid>
-                  <Grid item xs>
+                  <Grid item xs={1}>
                     <Button variant="contained" color="primary" size="large">
-                      Go!
+                      GO
                     </Button>
                   </Grid>
                 </Grid>
