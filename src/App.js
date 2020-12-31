@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import 'fontsource-roboto';
 import Grid from '@material-ui/core/Grid';
@@ -29,8 +30,16 @@ class App extends React.Component {
     super();
 
     this.state = {
-      githubUsername: ""
+      githubUsername: "",
+      loadingUser: false,
     }
+  }
+
+  loadUser() {
+    if(this.state.githubUsername === "")
+      return;
+
+    this.setState({ loadingUser: true });
   }
 
   render() {
@@ -46,10 +55,13 @@ class App extends React.Component {
                     <TextField value={this.state.githubUsername} label="GitHub username" variant="outlined"
                       fullWidth onChange={event => this.setState({githubUsername: event.target.value})}/>
                   </Grid>
-                  <Grid item xs={1}>
-                    <Button variant="contained" color="primary" size="large">
+                  <Grid item xs={1} hidden={this.state.loadingUser}>
+                    <Button variant="contained" color="primary" size="large" onClick={() => this.loadUser()}>
                       GO
                     </Button>
+                  </Grid>
+                  <Grid item xs={1} hidden={!this.state.loadingUser}>
+                    <CircularProgress />
                   </Grid>
                 </Grid>
               </form>
