@@ -1,4 +1,4 @@
-# react-gpv
+# GitHub Profile Viewer
 Web app that provides insights and visualizations for GitHub profiles
 
 This Node.js app provides a simple interface to make two types of requests to the GitHub API. The app takes in a username and "List repos" or "User info" and makes the appropriate API calls to `api.github.com`.
