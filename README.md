@@ -25,12 +25,17 @@ Proficiency
 - [ ] Code changes (+x lines - y lines, bar graph up to 1 month, dropdown menu, hidden for no data)
 - [ ] ???
 
-Achievements (extra features, only if there's extra time available): 
-- List of locked and unlocked achievements
-- [ ] We have a problem - open 10 issues
-- [ ] Got the bug repellant! - close 10 issues
-- [ ] Age - >10 years: veteran, >4 years:  >2 years: apprentice, >1 year: novice, <1 year: newbie
-
 Other visualizations
 - [ ] Node graph of lanugages -> projects
 - [ ] Node graph of users -> projects
+
+### Additional features:
+
+App:
+- [ ] Responsive UI (Mobile, tablet, etc)
+
+Achievements (extra features, only if there's extra time available): 
+- [ ] List of locked and unlocked achievements
+- [ ] We have a problem - open 10 issues
+- [ ] Got the bug repellant! - close 10 issues
+- [ ] Age - >10 years: veteran, >4 years:  >2 years: apprentice, >1 year: novice, <1 year: newbie
