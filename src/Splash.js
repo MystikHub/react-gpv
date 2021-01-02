@@ -2,11 +2,11 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import React from 'react';
+import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-class Splash extends React.Component {
+export default class Splash extends Component {
   constructor(props) {
     super(props);
 
@@ -21,6 +21,20 @@ class Splash extends React.Component {
       return;
     
     this.setState({ loadingUser: true });
+
+    var userInfoReq = new XMLHttpRequest();
+    userInfoReq.app = this;
+    userInfoReq.onreadystatechange = () => {
+      if(userInfoReq.readyState === 4) {
+        if(userInfoReq.status === 200) {
+          console.log(userInfoReq.responseText);
+          localStorage.setItem('lastVisitedUser', userInfoReq.responseText);
+          this.props.onUserInfoFetched();
+        }
+      }
+    };
+    userInfoReq.open('GET', `https://api.github.com/users/${this.state.githubUsername}`);
+    userInfoReq.send();
   }
   
   
@@ -49,5 +63,3 @@ class Splash extends React.Component {
       );
     }
   }
-  
-  export default Splash;

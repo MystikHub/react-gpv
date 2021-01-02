@@ -2,6 +2,7 @@ import './App.css';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import React from 'react';
 import Splash from './Splash';
+import Viewer from './UserViewer/Viewer'
 
 const theme = createMuiTheme({
   palette: {
@@ -10,15 +11,28 @@ const theme = createMuiTheme({
 })
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentUser: localStorage.lastVisitedUser
+    }
   }
 
   render() {
+    if(this.state.currentUser === undefined) {
+      return (
+        <MuiThemeProvider theme={theme}>
+            <header className="App-header">
+              <Splash onUserInfoFetched={() => this.setState({currentUser: localStorage.lastVisitedUser})}/>
+            </header>
+        </MuiThemeProvider>
+      );
+    }
     return (
       <MuiThemeProvider theme={theme}>
           <header className="App-header">
-            <Splash onUserinfoFetched={() => this.showUser()} />
+            <Viewer user={this.state.currentUser}/>
           </header>
       </MuiThemeProvider>
     );
