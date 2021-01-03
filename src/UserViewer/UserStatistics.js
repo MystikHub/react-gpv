@@ -44,3 +44,52 @@ export const getActiveness = (callback) => {
   publicEvents.open('GET', `https://api.github.com/users/${username}/events/public?per_page=100`);
   publicEvents.send();
 }
+
+export const getRepoList = (callback) => {
+  // Get the data needed by vis-react for the repository network
+
+  let repositoryData = new XMLHttpRequest();
+  repositoryData.onreadystatechange = () => {
+    if(repositoryData.readyState === 4) {
+      if(repositoryData.status === 200) {
+        let repos = JSON.parse(repositoryData.response);
+        console.log(repositoryData.responseText);
+
+        callback(repos);
+      }
+    }
+  }
+  let username = JSON.parse(localStorage.lastVisitedUser).login;
+  repositoryData.open('GET', `https://api.github.com/users/${username}/repos`);
+  repositoryData.setRequestHeader('Authorization', `token ${process.env.REACT_APP_GITHUB_API_TOKEN}`);
+  repositoryData.send();
+}
+
+export const getRepositoryNetworkGraph = () => {
+  let nodes = [
+          {
+            id: 1,
+            label: localStorage.lastVisitedUser === undefined ?
+              "" :
+              JSON.parse(localStorage.lastVisitedUser).login
+          },
+          { id: 2, label: 'Node 2' },
+          { id: 3, label: 'Node 3' },
+          { id: 4, label: 'Node 4' },
+          { id: 5, label: 'Node 5' }
+      ];
+
+  let edges = [
+          { from: 1, to: 2 },
+          { from: 1, to: 3 },
+          { from: 2, to: 4 },
+          { from: 2, to: 5 }
+      ];
+
+  var graph = {
+      nodes: nodes,
+      edges: edges
+  };
+
+  return graph;
+}

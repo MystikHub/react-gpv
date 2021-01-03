@@ -2,27 +2,12 @@ import Box from '@material-ui/core/Box';
 import Graph from 'vis-react';
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
+import { getRepoList, getRepositoryNetworkGraph } from './UserStatistics';
 
-var graph = {
-    nodes: [
-        { id: 1, label: 'Node 1' },
-        { id: 2, label: 'Node 2' },
-        { id: 3, label: 'Node 3' },
-        { id: 4, label: 'Node 4' },
-        { id: 5, label: 'Node 5' }
-    ],
-    edges: [
-        { from: 1, to: 2 },
-        { from: 1, to: 3 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 }
-    ]
-};
- 
 var options = {
-    layout: {
-        hierarchical: true
-    },
+    // layout: {
+    //     hierarchical: true
+    // },
     edges: {
         color: '#eee'
     },
@@ -43,6 +28,7 @@ export default class Network extends Component {
   constructor(props) {
     super(props);
 
+    getRepoList(() => {console.log("Finished!")});
   }
 
   render() {
@@ -51,7 +37,7 @@ export default class Network extends Component {
         <Typography variant="h4" fullWidth><Box textAlign="center">Repository network</Box></Typography>
         <br />
         <Graph
-          graph={graph}
+          graph={getRepositoryNetworkGraph()}
           options={options}
           events={events}
           style={style}
