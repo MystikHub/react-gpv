@@ -14,7 +14,7 @@ If you're on macOS or Linux, you can run the bash script `run.sh` to build and r
 
 Overview and influence page
 - [ ] User summary
-- [ ] Level of activity: Enthusiast (100%-50% days) Active member (50-30% days), Lurker (<30%)
+- [X] Level of activity: Enthusiast (100%-50% days) Active member (50-30% days), Lurker (<30%)
 - [ ] Role (Programmer, maintainer, problem solver)
 - [ ] User frequently works with 
 - [ ] Network

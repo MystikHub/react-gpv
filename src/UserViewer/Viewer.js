@@ -70,7 +70,7 @@ export default class Viewer extends Component {
           <Grid item xs>
             <Typography variant="h4">{this.state.parsedUser.login}</Typography>
             <br />
-            <Typography variant="body1">{this.state.parsedUser.bio}</Typography>
+            <Typography variant="body1">{this.state.parsedUser.bio === null ? "No bio available" : this.state.parsedUser.bio}</Typography>
             <br />
             <a href={this.state.parsedUser.html_url} className="link-white" 
               target="_blank" rel="noreferrer">
