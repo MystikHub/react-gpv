@@ -9,8 +9,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 If you're on macOS or Linux, you can run the bash script `run.sh` to build and run the docker container. If you're on Windows, open the script and run the commands manually.
 
-## Remaining tasks:
+## Task list:
 - [X] Rough user interface mockup
+- [ ] Change currently displayed user
 
 Overview and influence page
 - [ ] User summary
@@ -18,14 +19,14 @@ Overview and influence page
 - [ ] Role (Programmer, maintainer, problem solver)
 - [ ] User frequently works with 
 - [ ] Network
-- [ ] User's repositories
 
 Proficiency
 - [ ] Favorite languages
 - [ ] Code changes (+x lines - y lines, bar graph up to 1 month, dropdown menu, hidden for no data)
 - [ ] ???
 
-Other visualizations
+Network visualizations
+- [ ] User's repositories and contributors
 - [ ] Node graph of lanugages -> projects
 - [ ] Node graph of users -> projects
 
