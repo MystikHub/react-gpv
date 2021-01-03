@@ -4,12 +4,14 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Overview from './Overview';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
+
+import Network from './Network';
+import Overview from './Overview';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,7 +86,8 @@ export default class Viewer extends Component {
             centered>
             <Tab label="Overview" {...generateTabProps(0)} />
             <Tab label="Proficiency" {...generateTabProps(1)} />
-            <Tab label="Achievements" {...generateTabProps(2)} />
+            <Tab label="Network" {...generateTabProps(2)} />
+            <Tab label="Achievements" {...generateTabProps(3)} />
           </Tabs>
         </AppBar>
         <TabPanel value={this.state.selectedTab} index={0}>
@@ -94,6 +97,9 @@ export default class Viewer extends Component {
           Proficiency
         </TabPanel>
         <TabPanel value={this.state.selectedTab} index={2}>
+          <Network />
+        </TabPanel>
+        <TabPanel value={this.state.selectedTab} index={3}>
           Achievements
         </TabPanel>
       </Container>
