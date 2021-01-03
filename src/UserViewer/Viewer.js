@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Overview from './Overview';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import Tab from '@material-ui/core/Tab';
@@ -87,7 +88,7 @@ export default class Viewer extends Component {
           </Tabs>
         </AppBar>
         <TabPanel value={this.state.selectedTab} index={0}>
-          Overview
+          <Overview />
         </TabPanel>
         <TabPanel value={this.state.selectedTab} index={1}>
           Proficiency
