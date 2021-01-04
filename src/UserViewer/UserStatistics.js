@@ -45,51 +45,56 @@ export const getActiveness = (callback) => {
   publicEvents.send();
 }
 
-export const getRepoList = (callback) => {
-  // Get the data needed by vis-react for the repository network
-
-  let repositoryData = new XMLHttpRequest();
-  repositoryData.onreadystatechange = () => {
-    if(repositoryData.readyState === 4) {
-      if(repositoryData.status === 200) {
-        let repos = JSON.parse(repositoryData.response);
-        console.log(repositoryData.responseText);
-
-        callback(repos);
-      }
-    }
-  }
-  let username = JSON.parse(localStorage.lastVisitedUser).login;
-  repositoryData.open('GET', `https://api.github.com/users/${username}/repos`);
-  repositoryData.setRequestHeader('Authorization', `token ${process.env.REACT_APP_GITHUB_API_TOKEN}`);
-  repositoryData.send();
-}
-
-export const getRepositoryNetworkGraph = () => {
+async function getRepositoryNetworkGraphData() {
   let nodes = [
-          {
-            id: 1,
-            label: localStorage.lastVisitedUser === undefined ?
-              "" :
-              JSON.parse(localStorage.lastVisitedUser).login
-          },
-          { id: 2, label: 'Node 2' },
-          { id: 3, label: 'Node 3' },
-          { id: 4, label: 'Node 4' },
-          { id: 5, label: 'Node 5' }
-      ];
+    {
+      id: 0,
+      label: localStorage.lastVisitedUser === undefined ?
+        "" :
+        JSON.parse(localStorage.lastVisitedUser).login
+    }
+  ];
 
-  let edges = [
-          { from: 1, to: 2 },
-          { from: 1, to: 3 },
-          { from: 2, to: 4 },
-          { from: 2, to: 5 }
-      ];
+  let edges = [];
+	
+  const response = await fetch('https://api.github.com/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `bearer ${process.env.REACT_APP_GITHUB_API_TOKEN}`
+    },
+    body: JSON.stringify({
+      query: `
+        {
+          user(login: "${JSON.parse(localStorage.lastVisitedUser).login}") {
+            repositories(last: 100) {
+              nodes {
+                name
+                collaborators(last: 100) {
+                  nodes {
+                    login
+                  }
+                }
+              }
+            }
+          }
+        }`
+    })
+  })
+    .then(response => response.json());
+  
+  console.log(response.data);
+  console.log(`Response length: ${response.data.user.repositories.nodes.length}`);
+  for(let i = 0; i < response.data.user.repositories.nodes.length; i++) {
+    nodes.push({
+      id: i + 1,
+      label: response.data.user.repositories.nodes[i].name
+    });
+    edges.push({ from: 0, to: i + 1 });
+  }
 
-  var graph = {
-      nodes: nodes,
-      edges: edges
-  };
-
-  return graph;
+  console.log("Gonna return " + JSON.stringify({nodes, edges}) + "!");
+  return {nodes, edges};
 }
+export { getRepositoryNetworkGraphData };

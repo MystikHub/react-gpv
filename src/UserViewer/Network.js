@@ -2,7 +2,7 @@ import Box from '@material-ui/core/Box';
 import Graph from 'vis-react';
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { getRepoList, getRepositoryNetworkGraph } from './UserStatistics';
+import { getRepositoryNetworkGraphData } from './UserStatistics';
 
 var options = {
     // layout: {
@@ -28,28 +28,43 @@ export default class Network extends Component {
   constructor(props) {
     super(props);
 
-    getRepoList(() => {console.log("Finished!")});
+    this.state = {
+      graphData: undefined
+    };
+  }
+
+  async componentDidMount() {
+    this.setState({ graphData: await getRepositoryNetworkGraphData() });
   }
 
   render() {
-    return (
-      <div>
-        <Typography variant="h4" fullWidth><Box textAlign="center">Repository network</Box></Typography>
-        <br />
-        <Graph
-          graph={getRepositoryNetworkGraph()}
-          options={options}
-          events={events}
-          style={style}
-          getNetwork={this.getNetwork}
-          getEdges={this.getEdges}
-          getNodes={this.getNodes}
-          vis={vis => (this.vis = vis)} />
+    if(this.state.graphData === undefined)
+      return (
+        <div>
+          <Typography variant="h4" fullWidth><Box textAlign="center">Repository network</Box></Typography>
+          <br />
 
-        <Typography variant="h4" fullWidth><Box textAlign="center">Language network</Box></Typography>
-        <br />
+          <Typography variant="h4" fullWidth><Box textAlign="center">Language network</Box></Typography>
+          <br />
 
-      </div>
-    );
+        </div>
+      );
+    else
+      return (
+        <div>
+          <Typography variant="h4" fullWidth><Box textAlign="center">Repository network</Box></Typography>
+          <br />
+          <Graph
+            graph={this.state.graphData}
+            options={options}
+            style={style}
+            events={events}
+            vis={vis => (this.vis = vis)} />
+
+          <Typography variant="h4" fullWidth><Box textAlign="center">Language network</Box></Typography>
+          <br />
+
+        </div>
+      );
   }
 }
