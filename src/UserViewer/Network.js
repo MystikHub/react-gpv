@@ -42,6 +42,12 @@ export default class Network extends Component {
       return (
         <div>
           <Typography variant="h4" fullWidth><Box textAlign="center">Repository network</Box></Typography>
+          <Typography variant="body1" fullWidth>
+            <Box textAlign="center">
+              If your GitHub access token has push access to a repository, its collaborators will be shown
+              in the graph below
+            </Box>
+          </Typography>
           <br />
 
           <Typography variant="h4" fullWidth><Box textAlign="center">Language network</Box></Typography>
@@ -53,6 +59,12 @@ export default class Network extends Component {
       return (
         <div>
           <Typography variant="h4" fullWidth><Box textAlign="center">Repository network</Box></Typography>
+          <Typography variant="body1" fullWidth>
+            <Box textAlign="center">
+              If your GitHub access token has push access to a repository, its collaborators will be shown
+              in the graph below
+            </Box>
+          </Typography>
           <br />
           <Graph
             graph={this.state.graphData}

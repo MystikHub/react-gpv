@@ -27,7 +27,7 @@ Proficiency
 - [ ] ???
 
 Network visualizations
-- [ ] User's repositories and contributors
+- [X] User's repositories and contributors
 - [ ] Node graph of lanugages -> projects
 - [ ] Node graph of users -> projects
 

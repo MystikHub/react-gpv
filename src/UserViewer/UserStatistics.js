@@ -48,7 +48,7 @@ export const getActiveness = (callback) => {
 async function getRepositoryNetworkGraphData() {
   let nodes = [
     {
-      id: 0,
+      id: -1,
       label: localStorage.lastVisitedUser === undefined ?
         "" :
         JSON.parse(localStorage.lastVisitedUser).login
@@ -84,17 +84,37 @@ async function getRepositoryNetworkGraphData() {
   })
     .then(response => response.json());
   
+  // Add repo nodes and edges
   console.log(response.data);
   console.log(`Response length: ${response.data.user.repositories.nodes.length}`);
+  let latestNodeId = -1;
   for(let i = 0; i < response.data.user.repositories.nodes.length; i++) {
+    latestNodeId++;
     nodes.push({
-      id: i + 1,
+      id: latestNodeId,
       label: response.data.user.repositories.nodes[i].name
     });
-    edges.push({ from: 0, to: i + 1 });
+    edges.push({ from: -1, to: i });
   }
 
-  console.log("Gonna return " + JSON.stringify({nodes, edges}) + "!");
+  // Add contributor nodes and edges
+  for(let i = 0; i < response.data.user.repositories.nodes.length; i++) {
+    // Check if we got back any collaborators
+    if(response.data.user.repositories.nodes[i].collaborators !== null) {
+      for(let j = 0; j < response.data.user.repositories.nodes[i].collaborators.nodes.length; j++) {
+        // Don't add the analyzed user
+        if(response.data.user.repositories.nodes[i].collaborators.nodes[j].login !== JSON.parse(localStorage.lastVisitedUser).login) {
+          latestNodeId++;
+          nodes.push({
+            id: latestNodeId,
+            label: response.data.user.repositories.nodes[i].collaborators.nodes[j].login
+          });
+          edges.push({ from: i, to: latestNodeId });
+        }
+      }
+    }
+  }
+
   return {nodes, edges};
 }
 export { getRepositoryNetworkGraphData };
