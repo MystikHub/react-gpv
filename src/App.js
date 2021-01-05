@@ -28,14 +28,15 @@ class App extends React.Component {
             </header>
         </MuiThemeProvider>
       );
-    }
-    return (
-      <MuiThemeProvider theme={theme}>
+    } else {
+      return (
+        <MuiThemeProvider theme={theme}>
           <header className="App-header">
-            <Viewer user={this.state.currentUser}/>
+            <Viewer user={this.state.currentUser} onUserChanged={() => this.setState({ currentUser: localStorage.lastVisitedUser }) }/>
           </header>
-      </MuiThemeProvider>
-    );
+        </MuiThemeProvider>
+      );
+    }
   }
 }
 

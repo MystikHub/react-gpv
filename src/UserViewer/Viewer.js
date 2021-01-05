@@ -2,12 +2,14 @@ import Avatar from '@material-ui/core/Avatar';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react'
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import Network from './Network';
@@ -52,12 +54,34 @@ export default class Viewer extends Component {
 
     console.log(localStorage.lastVisitedUser)
     this.state = {
+      loadingUser: false,
       parsedUser: JSON.parse(localStorage.lastVisitedUser),
       selectedTab: 0
     }
   }
 
   handleTabChange = (event, newValue) => {this.setState({selectedTab: newValue})}
+  
+  loadNewUser() {
+    if(this.state.newUsername === "")
+      return;
+    
+    this.setState({ loadingUser: true });
+
+    var userInfoReq = new XMLHttpRequest();
+    userInfoReq.viewer = this;
+    userInfoReq.onreadystatechange = () => {
+      if(userInfoReq.readyState === 4) {
+        if(userInfoReq.status === 200) {
+          console.log(userInfoReq.responseText);
+          localStorage.setItem("lastVisitedUser", userInfoReq.responseText)
+	  window.location.reload();
+        }
+      }
+    };
+    userInfoReq.open('GET', `https://api.github.com/users/${this.state.newUsername}`);
+    userInfoReq.send();
+  }
 
   render() {
     return (
@@ -80,6 +104,25 @@ export default class Viewer extends Component {
             </a>
           </Grid>
         </Grid>
+
+	<Container maxWidth="sm" style={{ marginTop: "2rem" }}>
+	    <form noValidate autoComplete="off" onSubmit={e => {e.preventDefault(); this.loadNewUser();}}>
+              <Grid container spacing={3} alignItems="center">
+                <Grid item xs>
+                  <TextField value={this.state.newUsername} label="Navigate to new user" variant="outlined"
+                    fullWidth onChange={event => this.setState({ newUsername: event.target.value })}/>
+                </Grid>
+              <Grid item xs={1} hidden={this.state.loadingUser}>
+                <Button variant="contained" color="primary" size="large" onClick={() => this.loadNewUser()}>
+                  GO
+                </Button>
+              </Grid>
+              <Grid item xs={1} hidden={!this.state.loadingUser}>
+                <CircularProgress />
+              </Grid>
+            </Grid>
+          </form>
+	</Container>
 
         <AppBar position="static" style={{marginTop: "4rem"}}>
           <Tabs value={this.state.selectedTab} onChange={this.handleTabChange} aria-label="Visualization tabs"
