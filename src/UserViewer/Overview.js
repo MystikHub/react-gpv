@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 
-import { getActiveness } from './UserStatistics';
+import { getActiveness, getLanguagePreferences } from './UserStatistics';
 
 function activenessTitle(activeness) {
   if(activeness >= 50)
@@ -28,6 +28,7 @@ export default class Overview extends Component {
 
   componentDidMount() {
     getActiveness((result) => {this.setState({stats_activeness: result});});
+    getLanguagePreferences((result) => {this.setState({languagePreferences: result })});
   }
 
   render() {

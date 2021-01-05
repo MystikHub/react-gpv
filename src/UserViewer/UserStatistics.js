@@ -45,24 +45,13 @@ export const getActiveness = (callback) => {
   publicEvents.send();
 }
 
-async function getRepositoryNetworkGraphData() {
-  let nodes = [
-    {
-      id: -1,
-      label: localStorage.lastVisitedUser === undefined ?
-        "" :
-        JSON.parse(localStorage.lastVisitedUser).login
-    }
-  ];
-
-  let edges = [];
-	
-  const response = await fetch('https://api.github.com/graphql', {
+export const getLanguagePreferences = (callback) => {
+  fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': `bearer ${process.env.REACT_APP_GITHUB_API_TOKEN}`
+      'Authorization': `bearer ${process.env.REACT_APP_GITHUB_API_TOKEN ?? ""}`
     },
     body: JSON.stringify({
       query: `
@@ -83,6 +72,50 @@ async function getRepositoryNetworkGraphData() {
     })
   })
     .then(response => response.json());
+  return 0;
+}
+
+async function getRepositoryNetworkGraphData() {
+  let nodes = [
+    {
+      id: -1,
+      label: localStorage.lastVisitedUser === undefined ?
+        "" :
+        JSON.parse(localStorage.lastVisitedUser).login
+    }
+  ];
+
+  let edges = [];
+	
+  const response = await fetch('https://api.github.com/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `bearer ${process.env.REACT_APP_GITHUB_API_TOKEN ?? ""}`
+    },
+    body: JSON.stringify({
+      query: `
+        {
+          user(login: "${JSON.parse(localStorage.lastVisitedUser).login}") {
+            repositories(last: 100) {
+              nodes {
+                name
+                collaborators(last: 100) {
+                  nodes {
+                    login
+                  }
+                }
+              }
+            }
+          }
+        }`
+    })
+  })
+    .then(response => response.json());
+
+  if(response.data === undefined)
+    return {nodes: [], edges: []};
   
   // Add repo nodes and edges
   console.log(response.data);
