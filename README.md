@@ -11,7 +11,7 @@ If you're on macOS or Linux, you can run the bash script `run.sh` to build and r
 
 ## Task list:
 - [X] Rough user interface mockup
-- [ ] Change currently displayed user
+- [X] Change currently displayed user
 - [ ] Come up with a solution for no .env file (and the routes requiring authorization)
 
 Overview and influence page
