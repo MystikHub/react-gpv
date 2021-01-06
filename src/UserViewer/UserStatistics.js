@@ -1,5 +1,15 @@
 import moment from 'moment';
 
+// Thanks to https://stackoverflow.com/a/1484514/4742690
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 export const getActiveness = (callback) => {
   // Get the user's public events
 
@@ -45,7 +55,7 @@ export const getActiveness = (callback) => {
   publicEvents.send();
 }
 
-export const getLanguagePreferences = (callback) => {
+export const getLanguageData = (callback) => {
   fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
@@ -57,13 +67,10 @@ export const getLanguagePreferences = (callback) => {
       query: `
         {
           user(login: "${JSON.parse(localStorage.lastVisitedUser).login}") {
-            repositories(last: 100) {
+            topRepositories(first: 100, orderBy: {field: STARGAZERS, direction: DESC}) {
               nodes {
-                name
-                collaborators(last: 100) {
-                  nodes {
-                    login
-                  }
+                primaryLanguage {
+                  name
                 }
               }
             }
@@ -71,8 +78,53 @@ export const getLanguagePreferences = (callback) => {
         }`
     })
   })
-    .then(response => response.json());
-  return 0;
+    .then(response => response.json())
+    .then(response => {
+      let languages = response.data.user.topRepositories.nodes;
+      
+      // Get the language data
+      let languageCounts = [];
+      for(let i = 0; i < languages.length; i++) {
+				// Check if this language isn't already in languageCounts
+        let languageCountsIndex = -1;
+				for(let j = 0; j < languageCounts.length; j++) {
+          if(languages[i].primaryLanguage !== null && languages[i].primaryLanguage.name === languageCounts[j].name) {
+            languageCountsIndex = j;
+          }
+        }
+
+        if(languageCountsIndex !== -1) {
+          languageCounts[languageCountsIndex].count++;
+        } else if(languages[i].primaryLanguage !== null) {
+          languageCounts.push({ name: languages[i].primaryLanguage.name, count: 1});
+        }
+      }
+      console.log(languages);
+      
+      // Form the data for the visualization
+      let dataset = []
+      let labels = []
+      let randomColors1 = []
+      let randomColors2 = []
+      for(let i = 0; i < languageCounts.length; i++) {
+            dataset.push(languageCounts[i].count);
+            labels.push(languageCounts[i].name);
+            randomColors1.push(getRandomColor());
+            randomColors2.push(getRandomColor());
+      }
+
+      let data = {
+        datasets: [{
+          data: dataset,
+          backgroundColor: randomColors1,
+          borderColor: randomColors2
+        }],
+        labels: labels
+      };
+
+      callback(data);
+    })
+    .catch(error => console.log(error));
 }
 
 async function getRepositoryNetworkGraphData() {
@@ -113,9 +165,6 @@ async function getRepositoryNetworkGraphData() {
     })
   })
     .then(response => response.json());
-
-  if(response.data === undefined)
-    return {nodes: [], edges: []};
   
   // Add repo nodes and edges
   console.log(response.data);

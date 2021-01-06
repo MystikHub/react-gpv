@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Network from './Network';
 import Overview from './Overview';
+import Proficiency from './Proficiency';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -137,7 +138,7 @@ export default class Viewer extends Component {
           <Overview />
         </TabPanel>
         <TabPanel value={this.state.selectedTab} index={1}>
-          Proficiency
+          <Proficiency />
         </TabPanel>
         <TabPanel value={this.state.selectedTab} index={2}>
           <Network />

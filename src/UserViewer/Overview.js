@@ -28,7 +28,6 @@ export default class Overview extends Component {
 
   componentDidMount() {
     getActiveness((result) => {this.setState({stats_activeness: result});});
-    getLanguagePreferences((result) => {this.setState({languagePreferences: result })});
   }
 
   render() {
@@ -43,9 +42,6 @@ export default class Overview extends Component {
                 <Typography variant="body1" color="textSecondary">Measured as the percentage of days with at least one event done by this user (commits, comments, watches, etc.) over the past month.</Typography>
               </CardContent>
             </Card>
-          </Grid>
-          <Grid item xs={8}>
-
           </Grid>
         </Grid>
       </Container>
