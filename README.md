@@ -1,13 +1,15 @@
 # GitHub Profile Viewer
 Web app that provides insights and visualizations for GitHub profiles
 
-This Node.js app provides a simple interface to make two types of requests to the GitHub API. The app takes in a username and "List repos" or "User info" and makes the appropriate API calls to `api.github.com`.
+This react app provides some insights for any GitHub user. Start off with a GitHub profile and switch between the different tabs to see the visualizations. The app makes API calls for a user's profile information, their activity across the GitHub website, the different languages the user participates in, and which other users worked on their repositories (requires a GitHub API token).
 
 The app uses [Material UI](https://material-ui.com/) for the user interface and runs on Node 14.15.3 (LTS at the time of writing, based on the `node` container with the `lts` tag on [Docker Hub](https://hub.docker.com/_/node/)).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-If you're on macOS or Linux, you can run the bash script `run.sh` to build and run the docker container. If you're on Windows, open the script and run the commands manually.
+If you're on macOS or Linux, you can run the bash script `run.sh` to build and run the docker container. If you're on Windows, you'll need to add your API token manually (optional) and start the docker container yourself.
+
+![App screenshot](app_screenshot.png)
 
 ## Task list:
 - [X] Rough user interface mockup
@@ -22,7 +24,7 @@ Overview and influence page
 - [ ] Network
 
 Proficiency
-- [ ] Favorite languages
+- [X] Favorite languages
 - [ ] Code changes (+x lines - y lines, bar graph up to 1 month, dropdown menu, hidden for no data)
 - [ ] ???
 
