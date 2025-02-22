@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import Chart from 'chart.js';
+import { Chart, DoughnutController, ArcElement } from 'chart.js';
 import { getLanguageData } from './UserStatistics';
 
 export default class Proficiency extends Component {
   constructor(props) {
     super(props);
 
+    Chart.register(DoughnutController, ArcElement);
     this.state = { graphData: null };
     getLanguageData(graphData => this.setupGraph(graphData));
   }
@@ -26,7 +27,7 @@ export default class Proficiency extends Component {
   }
 
   render() {
-    return(
+    return (
       <canvas id="language-chart" width="100%" height="40rem"></canvas>
     );
   }

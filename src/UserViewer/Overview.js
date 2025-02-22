@@ -1,12 +1,12 @@
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
-import { getActiveness, getLanguagePreferences } from './UserStatistics';
+import { getActiveness } from './UserStatistics';
 
 function activenessTitle(activeness) {
   if(activeness >= 50)

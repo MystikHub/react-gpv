@@ -1,16 +1,16 @@
-import Avatar from '@material-ui/core/Avatar';
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import Avatar from '@mui/material/Avatar';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react'
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 import Network from './Network';
 import Overview from './Overview';
@@ -61,22 +61,22 @@ export default class Viewer extends Component {
     }
   }
 
-  handleTabChange = (event, newValue) => {this.setState({selectedTab: newValue})}
-  
+  handleTabChange = (event, newValue) => { this.setState({ selectedTab: newValue }) }
+
   loadNewUser() {
-    if(this.state.newUsername === "")
+    if (this.state.newUsername === "")
       return;
-    
+
     this.setState({ loadingUser: true });
 
     var userInfoReq = new XMLHttpRequest();
     userInfoReq.viewer = this;
     userInfoReq.onreadystatechange = () => {
-      if(userInfoReq.readyState === 4) {
-        if(userInfoReq.status === 200) {
+      if (userInfoReq.readyState === 4) {
+        if (userInfoReq.status === 200) {
           console.log(userInfoReq.responseText);
           localStorage.setItem("lastVisitedUser", userInfoReq.responseText)
-	  window.location.reload();
+          window.location.reload();
         }
       }
     };
@@ -91,7 +91,7 @@ export default class Viewer extends Component {
           {/* Profile picture */}
           <Grid item xs="auto">
             <Avatar alt={this.state.parsedUser.login} src={this.state.parsedUser.avatar_url}
-              style={{ width:"10rem", height:"10rem"}} />
+              style={{ width: "10rem", height: "10rem" }} />
           </Grid>
           {/* Account description */}
           <Grid item xs>
@@ -99,20 +99,20 @@ export default class Viewer extends Component {
             <br />
             <Typography variant="body1">{this.state.parsedUser.bio === null ? "No bio available" : this.state.parsedUser.bio}</Typography>
             <br />
-            <a href={this.state.parsedUser.html_url} className="link-white" 
+            <a href={this.state.parsedUser.html_url} className="link-white"
               target="_blank" rel="noreferrer">
               <Button variant="contained" color="primary">View profile</Button>
             </a>
           </Grid>
         </Grid>
 
-	<Container maxWidth="sm" style={{ marginTop: "2rem" }}>
-	    <form noValidate autoComplete="off" onSubmit={e => {e.preventDefault(); this.loadNewUser();}}>
-              <Grid container spacing={3} alignItems="center">
-                <Grid item xs>
-                  <TextField value={this.state.newUsername} label="Navigate to new user" variant="outlined"
-                    fullWidth onChange={event => this.setState({ newUsername: event.target.value })}/>
-                </Grid>
+        <Container maxWidth="sm" style={{ marginTop: "2rem" }}>
+          <form noValidate autoComplete="off" onSubmit={e => { e.preventDefault(); this.loadNewUser(); }}>
+            <Grid container spacing={3} alignItems="center">
+              <Grid item xs>
+                <TextField value={this.state.newUsername} label="Navigate to new user" variant="outlined"
+                  fullWidth onChange={event => this.setState({ newUsername: event.target.value })} />
+              </Grid>
               <Grid item xs={1} hidden={this.state.loadingUser}>
                 <Button variant="contained" color="primary" size="large" onClick={() => this.loadNewUser()}>
                   GO
@@ -123,9 +123,9 @@ export default class Viewer extends Component {
               </Grid>
             </Grid>
           </form>
-	</Container>
+        </Container>
 
-        <AppBar position="static" style={{marginTop: "4rem"}}>
+        <AppBar position="static" style={{ marginTop: "4rem" }}>
           <Tabs value={this.state.selectedTab} onChange={this.handleTabChange} aria-label="Visualization tabs"
             centered>
             <Tab label="Overview" {...generateTabProps(0)} />

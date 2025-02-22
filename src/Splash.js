@@ -1,10 +1,10 @@
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 export default class Splash extends Component {
   constructor(props) {
